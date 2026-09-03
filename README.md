@@ -4,6 +4,7 @@
 纯静态输出，零第三方运行时依赖，任何静态托管（Nginx / OSS / COS / Vercel / Netlify）直接可上线。
 
 当前平台预览：https://72cc39bccdad47d592b779b546023345.app.workbuddy.link
+GitHub Pages：`https://ice55.github.io/qtysoft-ai-site/`（仓库已转 Public，push 到 main 自动部署）
 正式域名：`https://www.qtysoft-ai.com`（Vercel 托管，见下方「部署到 Vercel」）
 
 > 平台预览链接由沙箱 ID 生成，不支持自定义子域名。要拿自定义地址必须绑定自己的域名。
