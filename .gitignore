@@ -1,0 +1,14 @@
+# 构建产物（由 build.mjs 生成，部署 / Pages 时再构建）
+dist/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+
+# 本地环境变量
+.env
+.env.local
+.env.*.local

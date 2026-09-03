@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="乾腾元 QTY AI">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#060912"/>
+      <stop offset="1" stop-color="#0C1425"/>
+    </linearGradient>
+    <linearGradient id="lg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B7BFF"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".2" cy=".1" r=".7">
+      <stop stop-color="#3B7BFF" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#3B7BFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g transform="translate(96,96)">
+    <rect x="1" y="1" width="30" height="30" rx="9" fill="url(#lg)"/>
+    <path d="M9 21.5 L14.5 13" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+    <path d="M18 18.5 L23.5 10.5" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="23.5" cy="10.5" r="3" fill="#A78BFA"/>
+  </g>
+  <text x="96" y="360" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" font-size="72" font-weight="700" fill="#F2F5FF">让每一家企业</text>
+  <text x="96" y="452" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" font-size="72" font-weight="700" fill="#5AA0FF">都拥有会干活的 AI 员工</text>
+  <text x="96" y="524" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif" font-size="28" fill="#97A3C0">乾腾元 · 企业级 AI Agent 全栈服务商</text>
+</svg>

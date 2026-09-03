@@ -1,0 +1,16 @@
+{
+  "name": "qty-ai-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "杭州乾腾元科技有限公司官网 · 静态站点",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "serve": "node serve.mjs",
+    "start": "node build.mjs && node serve.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,149 @@
+---
+title: 关于我们 · 乾腾元 QTY AI
+description: 乾腾元成立于 2022 年，总部位于杭州未来科技城，专注把 AI Agent 做成真正能在企业里跑起来的产品。
+nav: about
+---
+<!-- @include partials/header.html -->
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <span class="eyebrow">关于我们　ABOUT</span>
+      <h1 class="t-h1">让 AI 真正进入企业的业务流</h1>
+      <p class="t-lead">
+        乾腾元是企业级 AI Agent 全栈服务商。我们相信 AI 的价值不在演示里，而在每一次被解决的实际问题里。
+      </p>
+    </div>
+  </section>
+
+  <!-- 公司简介 -->
+  <section class="section" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div class="reveal">
+        <span class="eyebrow">ABOUT US</span>
+        <h2 class="t-h3" id="about-title">杭州乾腾元科技 · 企业级 AI Agent 的全栈合伙人</h2>
+        <p class="t-body" style="margin-top:16px">
+          乾腾元成立于 2022 年，总部位于杭州未来科技城。我们由一群在企业级 SaaS、大模型工程与产业 AI 落地深耕多年的
+          工程师与产品经理组成，专注于把 AI Agent 做成真正能在企业里跑起来的产品。
+        </p>
+      </div>
+
+      <div class="about-stats reveal">
+        <div class="about-stat stat">
+          <span class="stat-num" data-count="2022">2022</span>
+          <span class="stat-label">杭州 · 未来科技城</span>
+        </div>
+        <div class="about-stat stat">
+          <span class="stat-num" data-count="80" data-suffix="+">80+</span>
+          <span class="stat-label">服务企业客户</span>
+        </div>
+        <div class="about-stat stat">
+          <span class="stat-num" data-count="320" data-suffix="+">320+</span>
+          <span class="stat-label">累计交付 Agent</span>
+        </div>
+        <div class="about-stat stat">
+          <span class="stat-num" data-count="95" data-suffix="%">95%</span>
+          <span class="stat-label">客户续约率</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 价值观 -->
+  <section class="section section--elev" aria-labelledby="values-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">OUR VALUES</span>
+        <h2 class="t-h2" id="values-title">我们坚持的三件事</h2>
+      </div>
+
+      <div class="values-row">
+        <article class="card reveal">
+          <span class="value-num">01</span>
+          <h3 class="value-title">客户成功优先于产品炫技</h3>
+          <p class="value-desc">我们不卖不能用的 demo。所有项目都以真实业务指标收尾，每一份交付都有可衡量的结果。</p>
+        </article>
+        <article class="card reveal">
+          <span class="value-num">02</span>
+          <h3 class="value-title">工程交付而非纯咨询</h3>
+          <p class="value-desc">乾腾元工程师会陪客户把 Agent 接进生产系统，从签约到上线不超过 30 天，所有代码都可被贵司团队接管。</p>
+        </article>
+        <article class="card reveal">
+          <span class="value-num">03</span>
+          <h3 class="value-title">安全与可治理是底线</h3>
+          <p class="value-desc">所有交付默认支持私有化部署、全链路审计与成本分摊，让 CIO、CFO 与业务团队都安心。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系我们 -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="container contact-grid">
+      <div class="reveal">
+        <span class="eyebrow">CONTACT US</span>
+        <h2 class="t-h3" id="contact-title">预约 30 分钟场景诊断</h2>
+        <p class="t-body" style="margin-top:16px">
+          顾问会在 1 个工作日内联系你，带着你的业务材料做一次深度场景诊断，并给出可落地的 Agent 化路线图。
+        </p>
+
+        <div class="contact-info">
+          <div>
+            <p class="contact-info-label">业务咨询</p>
+            <p class="contact-info-value"><a href="mailto:{{email}}">{{email}}</a></p>
+          </div>
+          <div>
+            <p class="contact-info-label">公司地址</p>
+            <p class="contact-info-value">浙江省杭州市余杭区未来科技城</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card reveal">
+        <h3 class="t-h3" style="font-size:22px">留下信息，顾问联系你</h3>
+        <p class="form-note" style="margin-top:8px">我们承诺不向第三方分享你的信息，所有资料仅用于本次场景诊断。</p>
+
+        <form class="form" id="leadForm" novalidate data-email="coolxuhanbing@gmail.com" style="margin-top:22px">
+          <div class="field">
+            <label for="company">公司名称</label>
+            <input class="input" id="company" name="company" type="text" autocomplete="organization" placeholder="例：杭州某某科技有限公司" required>
+            <span class="field-error" data-error-for="company"></span>
+          </div>
+
+          <div class="field">
+            <label for="name">联系人</label>
+            <input class="input" id="name" name="name" type="text" autocomplete="name" placeholder="你的称呼" required>
+            <span class="field-error" data-error-for="name"></span>
+          </div>
+
+          <div class="field">
+            <label for="contact">联系方式 (手机或邮箱)</label>
+            <input class="input" id="contact" name="contact" type="text" autocomplete="tel" placeholder="138 0000 0000 或 name@company.com" required>
+            <span class="field-error" data-error-for="contact"></span>
+          </div>
+
+          <div class="field">
+            <label for="scene">想先聊哪类场景</label>
+            <select class="select" id="scene" name="scene" required>
+              <option value="">请选择</option>
+              <option value="智能客服">智能客服 Agent</option>
+              <option value="销售增长">销售增长 Agent</option>
+              <option value="数据分析">数据分析 Agent</option>
+              <option value="办公协同">办公协同 Agent</option>
+              <option value="研发提效">研发提效 Agent</option>
+              <option value="定制场景">定制 Agent / 其他</option>
+            </select>
+            <span class="field-error" data-error-for="scene"></span>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit">提交预约</button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- @include partials/footer.html -->
