@@ -12,3 +12,15 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Java / Maven 构建产物
+target/
+*.class
+*.jar
+
+# Node 依赖
+node_modules/
+
+# IDE
+.idea/
+.vscode/

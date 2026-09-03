@@ -1,0 +1,55 @@
+:root {
+  --bg: #060912;
+  --bg-soft: #0c1425;
+  --bg-card: #0e1626;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --brand: #3b7bff;
+  --brand-2: #8b5cf6;
+  --text: #f2f5ff;
+  --text-2: #97a3c0;
+  --text-3: #5b6787;
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --danger: #f87171;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+}
+
+a { color: var(--brand); text-decoration: none; }
+
+/* 让 Element Plus 暗色融入品牌 */
+.el-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+}
+.el-input__wrapper,
+.el-textarea__inner {
+  background: var(--bg-soft) !important;
+  box-shadow: 0 0 0 1px var(--border) inset !important;
+  color: var(--text) !important;
+}
+.el-button {
+  border-radius: 8px !important;
+}
+.cms-gradient-text {
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

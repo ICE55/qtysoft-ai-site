@@ -1,0 +1,19 @@
+# 激活方式：环境变量 SPRING_PROFILES_ACTIVE=docker
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://cms-db:5432/qtycms}
+    username: ${SPRING_DATASOURCE_USERNAME:qtycms}
+    password: ${SPRING_DATASOURCE_PASSWORD:qtycms}
+
+cms:
+  jwt:
+    secret: ${CMS_JWT_SECRET}
+    expiration-minutes: ${CMS_JWT_EXPIRATION_MINUTES:120}
+  admin:
+    user: ${CMS_ADMIN_USER:admin}
+    pass: ${CMS_ADMIN_PASS:ChangeMe!2026}
+    pass-force-change: ${CMS_ADMIN_FORCE_CHANGE:true}
+  cors-origins: ${CMS_CORS_ORIGINS:http://localhost}
+  deploy:
+    hook-url: ${DEPLOY_HOOK_URL:}
+    token: ${CMS_DEPLOY_TOKEN:}

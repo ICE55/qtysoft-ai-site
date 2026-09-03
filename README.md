@@ -43,7 +43,7 @@ npx vercel --prod          # 之后每次改完重新构建 + 部署
 > 若域名注册商不支持根域名 A 记录（如部分国内服务商），改用 **DNS 托管到 Vercel**
 > （Vercel 会给出两个 NS 记录），一次性解决根域名与证书签发。
 
-**换域名时只需改一处**：`build.mjs` 里的 `SITE_URL`（或构建时传环境变量 `SITE_URL=https://xxx.com node build.mjs`）。
+**换域名时只需改一处**：`website/build.mjs` 里的 `SITE_URL`（或构建时传环境变量 `SITE_URL=https://xxx.com node build.mjs`）。
 canonical、sitemap、OG 地址、业务邮箱全部由它派生，无需逐个文件替换。
 
 ## GitHub 版本管理（自动同步）
@@ -149,3 +149,69 @@ qty-ai-site/
 移动版（375 宽设计稿 M1–M5）的规则已落到 CSS：多列网格改单列、数据格改 2 列、
 字号按 clamp 收敛（H1 62→33、H2 40→25、正文 16→14）、导航改抽屉、
 底部新增吸底咨询条（Mobile Sticky CTA Bar）。
+
+## 内容管理系统（CMS）
+
+让运营在控制台改内容、**不碰源码**。控制台维护的内容通过「发布」动作触发静态站重建并上线。
+
+### 架构
+
+| 层 | 技术 | 说明 |
+| --- | --- | --- |
+| 控制台 | `cms-admin`（Vue 3 + Vite + Element Plus + Pinia） | 仪表盘 / Schema 驱动编辑器 / 版本历史 / 账号管理 |
+| 后端 | `cms-backend`（Spring Boot 3 + Spring Security 6 + JWT + BCrypt） | 认证、内容 CRUD、版本快照、发布、RBAC |
+| 存储 | PostgreSQL（JSONB） | 6 个文档 `site/home/product/solutions/cases/about`，各含草稿 + 发布状态 + 历史版本 |
+| 部署 | Docker 整栈（`docker-compose.yml`） | `cms-db` + `cms-backend`(:8080) + `cms-console`(:80) 一键起 |
+
+### 本地一键启动
+
+```bash
+cd cms
+cp .env.example .env        # 按需修改 JWT 密钥、管理员账号、CORS、部署钩子
+bash build.sh               # 构建后端/控制台镜像并启动整栈（含 cms-db / cms-backend / cms-console）
+# 或直接用已存在镜像启动：docker compose up -d
+```
+
+首次启动会**自动建库、写入种子内容（6 个文档）、创建超级管理员**：
+
+- 用户名：`.env` 中 `CMS_ADMIN_USER`（默认 `admin`）
+- 密码：`.env` 中 `CMS_ADMIN_PASS`（默认 `Admin@2024`）
+- 首次登录强制改密
+
+控制台地址： http://localhost （或 `.env` 中 `CONSOLE_PORT` 指定端口）。
+
+### 控制台怎么用
+
+1. **仪表盘**：查看 6 个内容区发布状态（绿=已发布 / 橙=有草稿未发布）。
+2. **页面内容**：选文档 → 左侧按 Schema 动态表单编辑、右侧实时预览 → 保存草稿 / 发布。
+   列表型字段（能力模块、行业、案例、价值等）支持增删与上下移；数字滚动动画由 `value` + `suffix` 字段驱动。
+3. **版本历史**：每次发布写入快照，可一键回滚到任意历史版本（回滚 = 以快照重新发布）。
+4. **账号管理**（仅超管）：增删编辑运营账号，角色 `SUPER_ADMIN` / `EDITOR` / `VIEWER`。
+5. **发布即上线**：点「发布」后，后端调用 `.env` 中 `DEPLOY_HOOK_URL`（Vercel Deploy Hook 或
+   GitHub Actions `workflow_dispatch`）触发静态站重建；构建脚本 `node build.mjs --cms`（在 `website/` 下执行）拉取最新已发布内容并重新渲染 `website/dist/`。
+
+### 环境变量（.env）
+
+| 变量 | 说明 |
+| --- | --- |
+| `POSTGRES_*` | 数据库名 / 用户 / 密码（命名卷持久化） |
+| `CMS_JWT_SECRET` | JWT 签名密钥（建议 ≥ 32 字节随机串） |
+| `CMS_JWT_EXPIRATION_MINUTES` | Token 有效期（分钟） |
+| `CMS_ADMIN_USER` / `CMS_ADMIN_PASS` | 种子超管账号 |
+| `CMS_CORS_ORIGINS` | 控制台域名（如 `http://localhost`），多个用逗号分隔 |
+| `DEPLOY_HOOK_URL` | 发布后触发的部署钩子（Vercel / GitHub Actions） |
+| `CMS_DEPLOY_TOKEN` | 构建脚本拉取已发布内容用的**独立部署令牌**（与登录 JWT 隔离） |
+
+### 静态站如何取到 CMS 内容
+
+构建脚本 `build.mjs` 两种模式：
+
+- `node build.mjs`：读取本地 `content/*.json` 兜底（无 CMS 也能构建）。
+- `node build.mjs --cms`：从 `CMS_API_URL/api/content/published` 拉取已发布内容（带 `X-Deploy-Token` 头），失败回退本地 `content/`。
+
+`.github/workflows/deploy.yml` 已改为 `--cms` 模式，并注入 `CMS_API_URL` / `CMS_DEPLOY_TOKEN` 两个仓库 Secrets；CMS 发布时触发该 workflow 即可用线上已发布内容自动重建站点。
+
+### 文档
+
+- 产品需求：`docs/CMS-PRD.md`
+- 技术设计：`docs/CMS-TECH.md`（架构、数据模型、发布链路、RBAC 细节）

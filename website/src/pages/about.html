@@ -1,0 +1,124 @@
+---
+title: 关于我们 · 乾腾元 QTY AI
+description: 乾腾元成立于 2022 年，总部位于杭州未来科技城，专注把 AI Agent 做成真正能在企业里跑起来的产品。
+nav: about
+---
+<!-- @include partials/header.html -->
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <span class="eyebrow">{{content.about.hero.eyebrow}}</span>
+      <h1 class="t-h1">{{content.about.hero.title}}</h1>
+      <p class="t-lead">{{content.about.hero.subtitle}}</p>
+    </div>
+  </section>
+
+  <!-- 公司简介 -->
+  <section class="section" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div class="reveal">
+        <span class="eyebrow">ABOUT US</span>
+        <h2 class="t-h3" id="about-title">{{content.about.intro.title}}</h2>
+        <p class="t-body" style="margin-top:16px">{{content.about.intro.body}}</p>
+      </div>
+
+      <div class="about-stats reveal">
+        <!-- @each content.about.stats.items as s -->
+        <div class="about-stat stat">
+          <span class="stat-num" data-count="{{s.value}}" data-suffix="{{s.suffix}}">{{s.value}}{{s.suffix}}</span>
+          <span class="stat-label">{{s.label}}</span>
+        </div>
+        <!-- @endeach -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 价值观 -->
+  <section class="section section--elev" aria-labelledby="values-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">OUR VALUES</span>
+        <h2 class="t-h2" id="values-title">我们坚持的三件事</h2>
+      </div>
+
+      <div class="values-row">
+        <!-- @each content.about.values.items as v -->
+        <article class="card reveal">
+          <span class="value-num">{{v.num}}</span>
+          <h3 class="value-title">{{v.name}}</h3>
+          <p class="value-desc">{{v.desc}}</p>
+        </article>
+        <!-- @endeach -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系我们 -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="container contact-grid">
+      <div class="reveal">
+        <span class="eyebrow">CONTACT US</span>
+        <h2 class="t-h3" id="contact-title">{{content.about.contact.title}}</h2>
+        <p class="t-body" style="margin-top:16px">{{content.about.contact.desc}}</p>
+
+        <div class="contact-info">
+          <div>
+            <p class="contact-info-label">业务咨询</p>
+            <p class="contact-info-value"><a href="mailto:{{email}}">{{email}}</a></p>
+          </div>
+          <div>
+            <p class="contact-info-label">公司地址</p>
+            <p class="contact-info-value">{{content.site.contact.address}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card reveal">
+        <h3 class="t-h3" style="font-size:22px">留下信息，顾问联系你</h3>
+        <p class="form-note" style="margin-top:8px">我们承诺不向第三方分享你的信息，所有资料仅用于本次场景诊断。</p>
+
+        <form class="form" id="leadForm" novalidate data-email="{{content.site.contact.formEmail}}" style="margin-top:22px">
+          <div class="field">
+            <label for="company">公司名称</label>
+            <input class="input" id="company" name="company" type="text" autocomplete="organization" placeholder="例：杭州某某科技有限公司" required>
+            <span class="field-error" data-error-for="company"></span>
+          </div>
+
+          <div class="field">
+            <label for="name">联系人</label>
+            <input class="input" id="name" name="name" type="text" autocomplete="name" placeholder="你的称呼" required>
+            <span class="field-error" data-error-for="name"></span>
+          </div>
+
+          <div class="field">
+            <label for="contact">联系方式 (手机或邮箱)</label>
+            <input class="input" id="contact" name="contact" type="text" autocomplete="tel" placeholder="138 0000 0000 或 name@company.com" required>
+            <span class="field-error" data-error-for="contact"></span>
+          </div>
+
+          <div class="field">
+            <label for="scene">想先聊哪类场景</label>
+            <select class="select" id="scene" name="scene" required>
+              <option value="">请选择</option>
+              <option value="智能客服">智能客服 Agent</option>
+              <option value="销售增长">销售增长 Agent</option>
+              <option value="数据分析">数据分析 Agent</option>
+              <option value="办公协同">办公协同 Agent</option>
+              <option value="研发提效">研发提效 Agent</option>
+              <option value="定制场景">定制 Agent / 其他</option>
+            </select>
+            <span class="field-error" data-error-for="scene"></span>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit">提交预约</button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- @include partials/footer.html -->

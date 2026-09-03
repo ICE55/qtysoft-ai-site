@@ -1,0 +1,32 @@
+{
+  "brand": {
+    "name": "杭州乾腾元科技有限公司",
+    "shortName": "乾腾元",
+    "slogan": "让每个企业拥有自己的 AI 团队",
+    "logoText": "QTY",
+    "cta": "预约演示"
+  },
+  "contact": {
+    "email": "hi@qtysoft-ai.com",
+    "address": "浙江省杭州市",
+    "formEmail": "coolxuhanbing@gmail.com"
+  },
+  "footer": {
+    "copyrightYear": 2026,
+    "icp": "浙ICP备XXXXXXXX号",
+    "police": "浙公网安备XXXXXXXXXXXXXXXX号"
+  },
+  "nav": {
+    "items": [
+      { "label": "首页", "href": "/index.html", "key": "home" },
+      { "label": "产品能力", "href": "/product.html", "key": "product" },
+      { "label": "行业方案", "href": "/solutions.html", "key": "solutions" },
+      { "label": "客户案例", "href": "/cases.html", "key": "cases" },
+      { "label": "关于我们", "href": "/about.html", "key": "about" }
+    ]
+  },
+  "seo": {
+    "title": "杭州乾腾元科技 | 企业级 AI Agent 服务商",
+    "description": "乾腾元为企业构建可落地、可审计、可进化的 AI Agent 团队，覆盖零售、金融、制造、政务等行业场景。"
+  }
+}

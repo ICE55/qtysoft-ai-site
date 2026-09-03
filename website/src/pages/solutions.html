@@ -1,0 +1,39 @@
+---
+title: 行业解决方案 · 乾腾元 QTY AI
+description: 面向智能制造、金融与保险、零售与电商、医疗与公共服务的 AI Agent 方案，已在真实业务中验证，三周内可交付。
+nav: solutions
+---
+<!-- @include partials/header.html -->
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <span class="eyebrow">{{content.solutions.hero.eyebrow}}</span>
+      <h1 class="t-h1">{{content.solutions.hero.title}}</h1>
+      <p class="t-lead">{{content.solutions.hero.subtitle}}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-label="行业方案列表">
+    <div class="container">
+      <div class="solutions-grid">
+        <!-- @each content.solutions.industries.items as it -->
+        <article class="card industry-card reveal">
+          <span class="industry-tag">{{it.tag}}</span>
+          <h2 class="industry-title">{{it.title}}</h2>
+          <p class="industry-desc">{{it.desc}}</p>
+          <ul class="industry-list">
+            <!-- @each it.list as li -->
+            <li>{{li.text}}</li>
+            <!-- @endeach -->
+          </ul>
+        </article>
+        <!-- @endeach -->
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- @include partials/footer.html -->

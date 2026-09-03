@@ -27,12 +27,16 @@ jobs:
           node-version: '20'
 
       - name: Build site
-        run: node build.mjs
+        working-directory: website
+        env:
+          CMS_API_URL: ${{ secrets.CMS_API_URL }}
+          CMS_DEPLOY_TOKEN: ${{ secrets.CMS_DEPLOY_TOKEN }}
+        run: node build.mjs --cms
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: website/dist
 
   deploy:
     needs: build

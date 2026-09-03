@@ -1,0 +1,55 @@
+---
+title: 产品能力 · 乾腾元 QTY AI
+description: 一套 Agent 操作系统，覆盖从构建到运营：Agent Studio 智能体开发平台、Knowledge Hub 企业知识引擎、200+ 工具连接器与观测运营中心。
+nav: product
+---
+<!-- @include partials/header.html -->
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <span class="eyebrow">{{content.product.hero.eyebrow}}</span>
+      <h1 class="t-h1">{{content.product.hero.title}}</h1>
+      <p class="t-lead">{{content.product.hero.subtitle}}</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="{{content.product.hero.ctaHref}}">{{content.product.hero.ctaText}}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 能力模块 -->
+  <!-- @each content.product.modules.items as m -->
+  <section class="feature-block" aria-labelledby="m-{{$index}}-title">
+    <div class="container feature-grid">
+      <div class="reveal">
+        <span class="eyebrow">{{m.eyebrow}}</span>
+        <h2 class="feature-title" id="m-{{$index}}-title">{{m.title}}</h2>
+        <p class="feature-desc">{{m.desc}}</p>
+        <div class="tag-row">
+          <!-- @each m.tags as tag -->
+          <span class="tag">{{tag.text}}</span>
+          <!-- @endeach -->
+        </div>
+      </div>
+
+      <div class="feature-visual reveal">
+        <div class="mock">
+          <div class="mock-chrome">
+            <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+            <span class="mock-title">{{m.title}}</span>
+          </div>
+          <div class="tag-row" style="padding:18px 18px 22px; margin:0; flex-wrap:wrap;">
+            <!-- @each m.tags as tag -->
+            <span class="tag">{{tag.text}}</span>
+            <!-- @endeach -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- @endeach -->
+
+</main>
+
+<!-- @include partials/footer.html -->

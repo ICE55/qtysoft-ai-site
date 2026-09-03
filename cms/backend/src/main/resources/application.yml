@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: qty-cms
+  datasource:
+    url: jdbc:postgresql://localhost:5432/qtycms
+    username: qtycms
+    password: qtycms
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+  security:
+    user:
+      name: disabled
+      password: disabled
+
+cms:
+  jwt:
+    # 生产必须从环境变量 CMS_JWT_SECRET 注入；此处仅本地开发兜底
+    secret: "local-dev-secret-change-me-please-32bytes-min"
+    expiration-minutes: 120
+  admin:
+    # 首次启动若库内无账号，用以下环境变量 CMS_ADMIN_USER / CMS_ADMIN_PASS 创建超管
+    user: admin
+    pass: "ChangeMe!2026"
+    pass-force-change: true
+  cors-origins: "http://localhost:5173,http://localhost"
+  deploy:
+    hook-url: ""
+    token: ""

@@ -1,0 +1,58 @@
+# 乾腾元 CMS 整栈（开发 / 生产通用）
+# 用法：
+#   cp .env.example .env && vi .env   # 填好密钥
+#   docker compose up -d
+# 控制台： http://<host>/       后端 API： http://<host>/api
+
+services:
+  cms-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-qtycms}
+      POSTGRES_USER: ${POSTGRES_USER:-qtycms}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-qtycms}
+    volumes:
+      - cms_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-qtycms}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cms-backend:
+    image: ${REGISTRY:-local}/cms-backend:${TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      cms-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://cms-db:5432/${POSTGRES_DB:-qtycms}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-qtycms}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-qtycms}
+      CMS_JWT_SECRET: ${CMS_JWT_SECRET}
+      CMS_JWT_EXPIRATION_MINUTES: ${CMS_JWT_EXPIRATION_MINUTES:-120}
+      CMS_ADMIN_USER: ${CMS_ADMIN_USER:-admin}
+      CMS_ADMIN_PASS: ${CMS_ADMIN_PASS:-ChangeMe!2026}
+      CMS_ADMIN_FORCE_CHANGE: ${CMS_ADMIN_FORCE_CHANGE:-true}
+      CMS_CORS_ORIGINS: ${CMS_CORS_ORIGINS:-http://localhost}
+      DEPLOY_HOOK_URL: ${DEPLOY_HOOK_URL:-}
+      CMS_DEPLOY_TOKEN: ${CMS_DEPLOY_TOKEN:-}
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+
+  cms-console:
+    image: ${REGISTRY:-local}/cms-console:${TAG:-latest}
+    restart: unless-stopped
+    depends_on:
+      - cms-backend
+    ports:
+      - "${CONSOLE_PORT:-80}:80"
+    # 接入 HTTPS 时：放证书并启用 443，或在前面加 Caddy / Traefik 自动签发
+
+volumes:
+  cms_db_data:

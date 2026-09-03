@@ -1,0 +1,53 @@
+{
+  "hero": {
+    "eyebrow": "产品能力　PLATFORM",
+    "title": "一套 Agent 操作系统，覆盖从构建到运营",
+    "subtitle": "乾腾元把企业 AI Agent 所需的所有能力沉淀进同一个平台。从拖拽构建、知识接入、工具调用到上线运营，每一步都不需要从零开始。",
+    "ctaText": "预约产品演示",
+    "ctaHref": "/about.html#contact"
+  },
+  "modules": {
+    "items": [
+      {
+        "eyebrow": "01　/　Agent Studio",
+        "title": "Agent Studio 智能体开发平台",
+        "desc": "零代码拖拽式编排，把业务流程画成可被 Agent 理解的工作图。多模型路由按任务自动选最优底座，50+ 模板覆盖六大业务场景，平均 5 天即可上线一个 Agent。",
+        "tags": [
+          { "text": "零代码" },
+          { "text": "多模型路由" },
+          { "text": "50+ 模板" }
+        ]
+      },
+      {
+        "eyebrow": "02　/　Knowledge Hub",
+        "title": "Knowledge Hub 企业知识引擎",
+        "desc": "多源文档解析（PDF / Word / 网页 / 数据库）、向量检索与口径管理，让 Agent 按你公司的规则说话、按你的知识判断。回答可追溯、可审计，每一次引用都能跳回原文。",
+        "tags": [
+          { "text": "多源解析" },
+          { "text": "向量检索" },
+          { "text": "答案归因" }
+        ]
+      },
+      {
+        "eyebrow": "03　/　Tool Market",
+        "title": "200+ 工具连接器 + 自定义插件",
+        "desc": "预置飞书、钉钉、SAP、金蝶、企微、Salesforce 等 200+ 主流业务系统连接器，也支持自定义插件与私有 API 网关。鉴权、配额与回滚统一管理，开发一次、复用到底。",
+        "tags": [
+          { "text": "200+ 预置" },
+          { "text": "自定义插件" },
+          { "text": "私有 API 网关" }
+        ]
+      },
+      {
+        "eyebrow": "04　/　Observability",
+        "title": "观测与运营中心",
+        "desc": "每一次调用全链路追踪与回放，成本按 Agent / 模型 / 部门拆分，配套月度运营报告与异常告警。把 Agent 从「能跑」推到「可被持续治理」，让 CFO 和 CIO 都安心。",
+        "tags": [
+          { "text": "全链路追踪" },
+          { "text": "成本分析" },
+          { "text": "月度报告" }
+        ]
+      }
+    ]
+  }
+}

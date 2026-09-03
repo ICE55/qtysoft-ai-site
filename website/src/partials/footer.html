@@ -1,0 +1,59 @@
+<!-- @include partials/cta-section.html -->
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
+              <rect x="1" y="1" width="30" height="30" rx="9" fill="url(#lgf)"></rect>
+              <path d="M9 21.5 L14.5 13" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".95"></path>
+              <path d="M14.5 13 L18 18.5" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"></path>
+              <path d="M18 18.5 L23.5 10.5" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".95"></path>
+              <circle cx="23.5" cy="10.5" r="3" fill="#A78BFA"></circle>
+              <rect x="8.5" y="24" width="15" height="2.4" rx="1.2" fill="#fff" opacity=".5"></rect>
+              <defs>
+                <linearGradient id="lgf" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#3B7BFF"></stop>
+                  <stop offset="1" stop-color="#8B5CF6"></stop>
+                </linearGradient>
+              </defs>
+            </svg>
+          </span>
+          <span class="footer-logo-text">{{content.site.brand.shortName}} {{content.site.brand.logoText}} AI</span>
+        </div>
+        <p class="footer-tagline">{{content.site.brand.slogan}}</p>
+        <p class="footer-contact"><a href="mailto:{{content.site.contact.email}}">业务咨询 {{content.site.contact.email}}</a></p>
+        <p class="footer-address">{{content.site.contact.address}}</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <h3 class="footer-col-title">快速导航</h3>
+          <ul>
+            <!-- @each content.site.nav.items as item -->
+            <li><a href="{{item.href}}">{{item.label}}</a></li>
+            <!-- @endeach -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-divider" role="presentation"></div>
+
+    <div class="footer-bottom">
+      <p>{{content.site.footer.copyrightYear}} {{content.site.brand.name}}　保留所有权利</p>
+      <p>{{content.site.footer.icp}}　{{content.site.footer.police}}</p>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-cta-bar" role="complementary" aria-label="快捷咨询">
+  <a class="btn btn-ghost btn-block" href="mailto:{{content.site.contact.email}}">业务咨询</a>
+  <a class="btn btn-primary btn-block" href="/about.html#contact">{{content.site.brand.cta}}</a>
+</div>
+
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>
