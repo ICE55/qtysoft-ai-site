@@ -45,6 +45,22 @@ npx vercel --prod          # 之后每次改完重新构建 + 部署
 **换域名时只需改一处**：`build.mjs` 里的 `SITE_URL`（或构建时传环境变量 `SITE_URL=https://xxx.com node build.mjs`）。
 canonical、sitemap、OG 地址、业务邮箱全部由它派生，无需逐个文件替换。
 
+## GitHub 版本管理（自动同步）
+
+源码已托管在私有仓库 **https://github.com/ICE55/qtysoft-ai-site**（`main` 分支），
+每次改动都会提交并推送到这里做版本备份与协作。
+
+- 一键同步（重建 + 提交 + 推送）：`npm run sync`（等价于 `bash scripts/sync.sh`）
+- 后续任何修改，我都会顺手 `git add -A && git commit && git push`，版本自动留痕，
+  无需你再手动操作。
+
+> ⚠️ **GitHub Pages 限制**：免费个人账号**不支持私有仓库开启 Pages**。
+> 仓库当前为私有，因此 `.github/workflows/deploy.yml` 的 Pages 自动部署会在 `deploy`
+> 阶段失败。两种选择：
+> 1. 把仓库改为**公开**（Settings → Change repository visibility），Pages 即可正常部署到
+>    `https://ICE55.github.io/qtysoft-ai-site`；
+> 2. 或仅用 GitHub 做版本备份，对外访问仍走现有 WorkBuddy 链接 / Vercel 绑定的 `qtysoft-ai.com`。
+
 ## 快速开始
 
 ```bash
