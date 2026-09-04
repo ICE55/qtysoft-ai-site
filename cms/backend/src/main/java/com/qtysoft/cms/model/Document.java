@@ -25,6 +25,14 @@ public class Document {
     @Column(name = "data_json", columnDefinition = "text", nullable = false)
     private String dataJson;
 
+    /**
+     * 已发布内容快照，JSON 文本。
+     * 与草稿分离：保存草稿只改 data_json，不影响线上内容；
+     * 为 null 表示该文档从未发布，不会出现在 /api/content/published 中。
+     */
+    @Column(name = "published_json", columnDefinition = "text")
+    private String publishedJson;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     @Builder.Default
@@ -48,5 +56,10 @@ public class Document {
 
     public boolean isPublished() {
         return status == DocumentStatus.PUBLISHED;
+    }
+
+    /** 是否存在「已保存但未发布」的改动（用于控制台提示） */
+    public boolean hasUnpublishedChanges() {
+        return publishedJson != null && !publishedJson.equals(dataJson);
     }
 }

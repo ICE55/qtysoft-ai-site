@@ -73,6 +73,7 @@ public class ContentService {
                     .key(key)
                     .label(DOC_LABELS.getOrDefault(key, key))
                     .status(doc == null ? DocumentStatus.DRAFT : doc.getStatus())
+                    .hasUnpublishedChanges(doc != null && doc.hasUnpublishedChanges())
                     .updatedAt(doc == null ? null : doc.getUpdatedAt())
                     .updatedBy(doc == null || doc.getUpdatedBy() == null ? "" : String.valueOf(doc.getUpdatedBy()))
                     .build();
@@ -88,7 +89,7 @@ public class ContentService {
                 .orElseGet(() -> parse(seedCache.get(docKey)));
     }
 
-    /** 保存草稿：更新数据，并标记为「未发布改动」(DRAFT) */
+    /** 保存草稿：只更新草稿内容，不触碰已发布快照，也不降级状态 */
     @Transactional
     public Object saveDraft(String docKey, Object data, User currentUser) {
         ensureKey(docKey);
@@ -96,7 +97,8 @@ public class ContentService {
         Document doc = documentRepository.findByDocKey(docKey).orElseGet(() ->
                 Document.builder().docKey(docKey).status(DocumentStatus.DRAFT).build());
         doc.setDataJson(json);
-        doc.setStatus(DocumentStatus.DRAFT);
+        // 关键：不要把状态降级为 DRAFT。已发布内容独立存放在 published_json，
+        // 保存草稿不会影响 /api/content/published 的返回结果（历史缺陷 P0-1）。
         doc.setUpdatedAt(java.time.Instant.now());
         doc.setUpdatedBy(currentUser.getId());
         documentRepository.save(doc);
@@ -109,13 +111,16 @@ public class ContentService {
         ensureKey(docKey);
         Document doc = documentRepository.findByDocKey(docKey)
                 .orElseGet(() -> {
-                    Document d = Document.builder().docKey(docKey).build();
+                    Document d = Document.builder().docKey(docKey).status(DocumentStatus.DRAFT).build();
                     d.setDataJson(seedCache.get(docKey));
                     return d;
                 });
-        if (doc.getStatus() != DocumentStatus.PUBLISHED) {
-            doc.setStatus(DocumentStatus.PUBLISHED);
+        if (doc.getDataJson() == null || doc.getDataJson().isBlank()) {
+            doc.setDataJson(seedCache.get(docKey));
         }
+        // 把当前草稿固化为已发布快照（此后草稿再改，线上内容不受影响）
+        doc.setPublishedJson(doc.getDataJson());
+        doc.setStatus(DocumentStatus.PUBLISHED);
         doc.setUpdatedAt(java.time.Instant.now());
         doc.setUpdatedBy(currentUser.getId());
         documentRepository.save(doc);
@@ -154,6 +159,8 @@ public class ContentService {
         Document doc = documentRepository.findByDocKey(docKey)
                 .orElseGet(() -> Document.builder().docKey(docKey).build());
         doc.setDataJson(rev.getDataJson());
+        // 回滚 = 让该历史快照同时成为草稿与已发布内容
+        doc.setPublishedJson(rev.getDataJson());
         doc.setStatus(DocumentStatus.PUBLISHED);
         doc.setUpdatedAt(java.time.Instant.now());
         doc.setUpdatedBy(currentUser.getId());
@@ -172,18 +179,43 @@ public class ContentService {
         return toView(newRev);
     }
 
-    /** 已发布内容（供构建拉取 / 部署令牌鉴权在 Controller 层） */
+    /** 已发布内容（供构建拉取 / 部署令牌鉴权在 Controller 层）。读的是已发布快照，与草稿隔离 */
     @Transactional(readOnly = true)
     public Map<String, Object> getPublished() {
         Map<String, Object> result = new LinkedHashMap<>();
         for (String key : DOC_KEYS) {
             documentRepository.findByDocKey(key).ifPresent(d -> {
-                if (d.getStatus() == DocumentStatus.PUBLISHED) {
-                    result.put(key, parse(d.getDataJson()));
+                String published = d.getPublishedJson();
+                if (published != null && !published.isBlank()) {
+                    result.put(key, parse(published));
                 }
             });
         }
         return result;
+    }
+
+    /**
+     * 存量数据回填：ddl-auto 只会新增 published_json 列，不会为既有行填值。
+     * 把历史上已发布（status=PUBLISHED）但没有快照的文档，用当前内容补齐，
+     * 避免升级后官网内容凭空消失。未发布过的文档保持 null，需运营显式发布。
+     */
+    @Transactional
+    public int backfillPublishedJson() {
+        List<Document> all = documentRepository.findAll();
+        int n = 0;
+        for (Document doc : all) {
+            boolean emptySnapshot = doc.getPublishedJson() == null || doc.getPublishedJson().isBlank();
+            boolean hasContent = doc.getDataJson() != null && !doc.getDataJson().isBlank();
+            if (emptySnapshot && hasContent && doc.getStatus() == DocumentStatus.PUBLISHED) {
+                doc.setPublishedJson(doc.getDataJson());
+                documentRepository.save(doc);
+                n++;
+            }
+        }
+        if (n > 0) {
+            log.info("已回填 {} 份文档的已发布快照（published_json）", n);
+        }
+        return n;
     }
 
     /** 首次启动且文档表为空时，写入种子并标记为已发布 */
@@ -194,6 +226,7 @@ public class ContentService {
             Document doc = Document.builder()
                     .docKey(key)
                     .dataJson(seedCache.get(key))
+                    .publishedJson(seedCache.get(key))
                     .status(DocumentStatus.PUBLISHED)
                     .build();
             documentRepository.save(doc);

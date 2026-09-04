@@ -29,6 +29,8 @@ public class DataSeeder implements CommandLineRunner {
     public void run(String... args) {
         try {
             authService.seedAdminIfEmpty(adminUser, adminPass, forceChange);
+            // 先回填存量已发布内容的快照，再处理种子初始化
+            contentService.backfillPublishedJson();
             contentService.seedDefaultDocumentsIfEmpty();
             log.info("CMS 初始化完成：种子管理员与默认文档已就绪。");
         } catch (Exception e) {

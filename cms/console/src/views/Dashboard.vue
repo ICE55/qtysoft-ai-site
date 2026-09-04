@@ -10,8 +10,9 @@
         <el-card class="doc-card" shadow="hover" @click="goEdit(item.key)">
           <div class="card-top">
             <span class="doc-label">{{ item.label }}</span>
-            <el-tag v-if="item.status === 'PUBLISHED'" type="success" size="small">已发布</el-tag>
-            <el-tag v-else type="warning" size="small">有未发布改动</el-tag>
+            <el-tag v-if="item.hasUnpublishedChanges" type="warning" size="small">有未发布改动</el-tag>
+            <el-tag v-else-if="item.status === 'PUBLISHED'" type="success" size="small">已发布</el-tag>
+            <el-tag v-else type="info" size="small">未发布</el-tag>
           </div>
           <div class="card-meta">
             <span>更新：{{ formatTime(item.updatedAt) }}</span>
