@@ -31,7 +31,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getHistory, restore } from '@/api/content'
+import { getHistory, restore as restoreDoc } from '@/api/content'
 
 const route = useRoute()
 const docKey = computed(() => route.params.docKey)
@@ -65,7 +65,7 @@ async function restore(revId) {
   }
   restoring.value = revId
   try {
-    await restore(docKey.value, revId)
+    await restoreDoc(docKey.value, revId)
     ElMessage.success('已回滚并重新发布')
     await load()
   } finally {
