@@ -137,15 +137,24 @@ function renderVars(html, vars) {
  */
 async function loadContent() {
   if (CMS_MODE) {
-    try {
-      const url = `${process.env.CMS_API_URL || 'http://localhost:8080'}/api/content/published`;
-      const token = process.env.CMS_DEPLOY_TOKEN || '';
-      const res = await fetch(url, { headers: { 'X-Deploy-Token': token } });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      log(`已从 CMS 拉取已发布内容 (${url})`);
-      return await res.json();
-    } catch (e) {
-      log(`CMS 拉取失败，回退本地 content/：${e.message}`);
+    const base = (process.env.CMS_API_URL || '').replace(/\/$/, '');
+    if (!base) {
+      // CI 未配置 CMS_API_URL 时不要去连默认的 localhost，避免无谓等待
+      log('未配置 CMS_API_URL，跳过 CMS 拉取，使用本地 content/');
+    } else {
+      try {
+        const url = `${base}/api/content/published`;
+        const token = process.env.CMS_DEPLOY_TOKEN || '';
+        const res = await fetch(url, {
+          headers: { 'X-Deploy-Token': token },
+          signal: AbortSignal.timeout(10000)
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        log(`已从 CMS 拉取已发布内容 (${url})`);
+        return await res.json();
+      } catch (e) {
+        log(`CMS 拉取失败，回退本地 content/：${e.message}`);
+      }
     }
   }
   const dir = join(ROOT, 'content');
