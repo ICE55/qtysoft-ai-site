@@ -180,15 +180,29 @@ bash build.sh               # 构建后端/控制台镜像并启动整栈（含 
 
 控制台地址： http://localhost （或 `.env` 中 `CONSOLE_PORT` 指定端口）。
 
+### 本地开发启动（不打镜像，改代码即时生效）
+
+```bash
+./start.sh            # 启动全部：数据库容器 → 后端 :8080 → 控制台 :5173 → 官网预览 :4173
+./start.sh rebuild    # 发布后重建官网静态站（从 CMS 拉取最新已发布内容）
+./start.sh status     # 查看各服务运行状态
+./start.sh stop       # 停止后端 / 控制台 / 官网预览（保留数据库容器）
+```
+
+需要 JDK 17+（脚本会自动识别 `~/.sdkman/candidates/java/current`）与 Node 18+。日志与 pid 输出到 `.run/`。
+
 ### 控制台怎么用
 
-1. **仪表盘**：查看 6 个内容区发布状态（绿=已发布 / 橙=有草稿未发布）。
+1. **仪表盘**：查看 6 个内容区发布状态（绿=已发布 / 橙=有未发布改动 / 灰=未发布）。
 2. **页面内容**：选文档 → 左侧按 Schema 动态表单编辑、右侧实时预览 → 保存草稿 / 发布。
    列表型字段（能力模块、行业、案例、价值等）支持增删与上下移；数字滚动动画由 `value` + `suffix` 字段驱动。
 3. **版本历史**：每次发布写入快照，可一键回滚到任意历史版本（回滚 = 以快照重新发布）。
 4. **账号管理**（仅超管）：增删编辑运营账号，角色 `SUPER_ADMIN` / `EDITOR` / `VIEWER`。
 5. **发布即上线**：点「发布」后，后端调用 `.env` 中 `DEPLOY_HOOK_URL`（Vercel Deploy Hook 或
    GitHub Actions `workflow_dispatch`）触发静态站重建；构建脚本 `node build.mjs --cms`（在 `website/` 下执行）拉取最新已发布内容并重新渲染 `website/dist/`。
+   **未配置 `DEPLOY_HOOK_URL` 时不会自动重建**（控制台会提示未配置钩子），本地请执行 `./start.sh rebuild`。
+
+> **草稿与发布是隔离的**：只点「保存草稿」不会改变官网，线上内容只跟随「已发布」的快照变化（见 `docs/PRD.md` §14 P0-1）。
 
 ### 环境变量（.env）
 
@@ -213,5 +227,8 @@ bash build.sh               # 构建后端/控制台镜像并启动整栈（含 
 
 ### 文档
 
-- 产品需求：`docs/CMS-PRD.md`
-- 技术设计：`docs/CMS-TECH.md`（架构、数据模型、发布链路、RBAC 细节）
+- **全系统统一 PRD（官网 + CMS，以代码实现为准）**：`docs/PRD.md`
+- CMS 产品需求：`cms/docs/CMS-PRD.md`
+- CMS 技术设计：`cms/docs/CMS-TECH.md`（架构、数据模型、发布链路、RBAC 细节）
+- 官网产品需求：`website/docs/PRD.md`
+- 官网技术设计：`website/docs/TECH.md`
